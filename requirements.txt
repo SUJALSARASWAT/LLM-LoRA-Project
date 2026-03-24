@@ -1,0 +1,10 @@
+transformers
+peft
+bitsandbytes
+datasets
+accelerate
+trl
+gradio
+scipy
+torch
+tensorboard
