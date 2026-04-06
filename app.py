@@ -113,110 +113,365 @@ def get_presentation_ui():
     slides = [
         """
         <div style='text-align: center; min-height: 60vh; padding: 2em; display: flex; flex-direction: column; justify-content: center;'>
-            <h1 style='font-size: 2.5em; font-weight: 700; background: linear-gradient(to right, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;'>LLM Project</h1>
-            <h2 style='font-size: 2.2em; color: #94a3b8; margin-bottom: 1em;'>Team:</h2>
+            <h1 style='font-size: 2.5em; font-weight: 700; background: linear-gradient(to right, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px;'>LLM-Based Coding Assistant using LoRA & Efficient Fine-Tuning</h1>
+            <h2 style='font-size: 1.8em; color: #94a3b8; margin-bottom: 1.5em;'>Team:</h2>
             <p style='font-size: 1.3em; line-height: 1.8; margin-bottom: 0.8em;'>Sujal Saraswat (2022bcs0015)</p>
-            <p style='font-size: 1.3em; line-height: 1.8; margin-bottom: 0.8em;'>Suraj Rathor (2022bcs0051)</p>
-        </div>
-        """,
-        """
-        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
-            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1em; font-weight: 700;'>About the Project</h2>
-            <div style='font-size: 1.3em; line-height: 1.8;'>
-                This project solves the challenge of adapting large language models for specific tasks without the prohibitive cost of full fine-tuning. 
-                We demonstrate how to take a general foundation model (`TinyLlama-1.1B`) and specialize it into an expert **Software Engineering Assistant** using LoRA, a Parameter-Efficient Fine-Tuning (PEFT) technique.
+            <p style='font-size: 1.3em; line-height: 1.8; margin-bottom: 2em;'>Suraj Rathor (2022bcs0051)</p>
+            <div style='font-size: 1.2em; color: #cbd5e1; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5em;'>
+                <p style='margin-bottom: 0.8em;'><b>Objective:</b></p>
+                <p>Develop a resource-efficient pipeline to adapt a general-purpose LLM into a domain-specific Software Engineering Assistant</p>
             </div>
         </div>
         """,
         """
         <div style='min-height: 60vh; padding: 2em; text-align: left;'>
-            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1em; font-weight: 700;'>Technologies Used</h2>
-            <div style='font-size: 1.3em; line-height: 1.8;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>Problem Statement</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Challenges in LLM Fine-Tuning</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Large Language Models contain billions of parameters</li>
+                    <li style='margin-bottom: 0.8em;'>Full fine-tuning requires high-end GPUs</li>
+                    <li style='margin-bottom: 0.8em;'>Large memory requirements (&gt;24GB VRAM)</li>
+                    <li style='margin-bottom: 0.8em;'>Long training time</li>
+                </ul>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>❌ Limitations:</h3>
                 <ul style='list-style-position: inside; margin-left: 1.5em;'>
-                    <li style='margin-bottom: 0.8em;'><b>Python</b>: The core programming language.</li>
-                    <li style='margin-bottom: 0.8em;'><b>PyTorch</b>: For building and training neural networks.</li>
-                    <li style='margin-bottom: 0.8em;'><b>Hugging Face Transformers</b>: To leverage pre-trained models and training utilities.</li>
-                    <li style='margin-bottom: 0.8em;'><b>PEFT (LoRA)</b>: For efficient fine-tuning by injecting trainable low-rank matrices.</li>
-                    <li style='margin-bottom: 0.8em;'><b>Gradio</b>: To create a modern and interactive web UI for model demonstration.</li>
-                    <li style='margin-bottom: 0.8em;'><b>BitsAndBytes</b>: For 4-bit quantization to reduce memory usage on CUDA devices.</li>
+                    <li style='margin-bottom: 0.8em;'>Not feasible on consumer hardware</li>
+                    <li style='margin-bottom: 0.8em;'>High computational cost</li>
+                    <li style='margin-bottom: 0.8em;'>Inefficient for small domain adaptation</li>
                 </ul>
             </div>
         </div>
         """,
         """
         <div style='min-height: 60vh; padding: 2em; text-align: left;'>
-            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1em; font-weight: 700;'>Architecture & Workflow</h2>
-            <div style='font-size: 1.3em; line-height: 1.8;'>
-                <p style='margin-bottom: 0.8em;'>The pipeline follows a modular, step-by-step approach:</p>
-                <ol style='list-style-position: inside; margin-left: 1.5em;'>
-                    <li style='margin-bottom: 0.8em;'><b>Configuration (`config.py`)</b>: Centralized settings for hardware, hyperparameters, and LoRA structure.</li>
-                    <li style='margin-bottom: 0.8em;'><b>Data Handling (`data_handler.py`)</b>: Fetches the `CodeAlpaca-20k` dataset and formats it into a conversational structure (`<|system|>`, `<|user|>`, `<|assistant|>`).</li>
-                    <li style='margin-bottom: 0.8em;'><b>Model Training (`model_trainer.py`)</b>: Loads the base `TinyLlama` model, injects LoRA adapters, and runs the supervised fine-tuning loop using `SFTTrainer`.</li>
-                    <li style='margin-bottom: 0.8em;'><b>Inference & UI (`app.py`)</b>: Provides a Gradio interface to compare the performance of the base model against the fine-tuned LoRA version.</li>
-                </ol>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>Proposed Solution</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #a855f7;'>Parameter-Efficient Fine-Tuning (PEFT)</h3>
+                <p style='margin-bottom: 1.5em;'><b>We use:</b></p>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'><b>LoRA (Low-Rank Adaptation)</b> → Efficient fine-tuning</li>
+                    <li style='margin-bottom: 0.8em;'><b>Quantization (QLoRA-inspired)</b> → Memory optimization</li>
+                    <li style='margin-bottom: 0.8em;'><b>Prompt Engineering (RAG-style)</b> → Controlled outputs</li>
+                </ul>
+                <div style='background: rgba(168, 85, 247, 0.1); padding: 1.5em; border-left: 3px solid #a855f7; border-radius: 8px;'>
+                    <p><b>🎯 Goal:</b></p>
+                    <p>Adapt a base LLM into a structured coding assistant with minimal resource usage</p>
+                </div>
             </div>
         </div>
         """,
         """
         <div style='min-height: 60vh; padding: 2em; text-align: left;'>
-            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1em; font-weight: 700;'>Dataset Explanation</h2>
-            <div style='font-size: 1.3em; line-height: 1.8;'>
-                We use the **`sahil2801/CodeAlpaca-20k`** dataset, which contains 20,000 instruction-following examples for coding tasks. 
-                For this project, we fine-tune on a subset of this data. The `data_handler.py` script formats each example into a structured prompt that teaches the model to act as a software engineering assistant.
-            </div>
-        </div>
-        """,
-        """
-        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
-            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1em; font-weight: 700;'>Model Details</h2>
-            <div style='font-size: 1.3em; line-height: 1.8;'>
-                <h3 style='font-size: 1.6em; margin-bottom: 0.8em;'>Base Model: TinyLlama-1.1B</h3>
-                <p style='margin-bottom: 1em;'>We start with `TinyLlama/TinyLlama-1.1B-Chat-v1.0`, a compact and efficient model suitable for fine-tuning on consumer hardware.</p>
-                <h3 style='font-size: 1.6em; margin-bottom: 0.8em;'>LoRA Fine-Tuning</h3>
-                <p>Instead of training all 1.1 billion parameters, we freeze the base model and inject small, trainable LoRA matrices into the `q_proj` and `v_proj` layers of the transformer. This reduces the trainable parameters to just a few million, making the process fast and memory-efficient.</p>
-            </div>
-        </div>
-        """,
-        """
-        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
-            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1em; font-weight: 700;'>Training Process</h2>
-            <div style='font-size: 1.3em; line-height: 1.8;'>
-                The training is orchestrated by `model_trainer.py`. It uses the `SFTTrainer` from the TRL library, which is optimized for instruction-based fine-tuning. 
-                Key training parameters include a learning rate of `2e-4`, a batch size of `1`, and the `paged_adamw_32bit` optimizer for CUDA environments to manage memory effectively.
-            </div>
-        </div>
-        """,
-        """
-        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
-            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1em; font-weight: 700;'>Results & Output</h2>
-            <div style='font-size: 1.3em; line-height: 1.8;'>
-                The fine-tuned model demonstrates a significant improvement in its ability to follow instructions and provide structured, high-quality responses for software engineering tasks. 
-                The Gradio demo in `app.py` allows for a direct side-by-side comparison, showing the LoRA-tuned model providing more detailed explanations and better code.
-            </div>
-        </div>
-        """,
-        """
-        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
-            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1em; font-weight: 700;'>Challenges Faced</h2>
-            <div style='font-size: 1.3em; line-height: 1.8;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>Base Model</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Foundation Model</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'><b>Model:</b> TinyLlama-1.1B-Chat-v1.0</li>
+                    <li style='margin-bottom: 0.8em;'><b>Size:</b> ~1.1 Billion Parameters</li>
+                    <li style='margin-bottom: 0.8em;'><b>Type:</b> Instruction-tuned conversational LLM</li>
+                </ul>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Why TinyLlama?</h3>
                 <ul style='list-style-position: inside; margin-left: 1.5em;'>
-                    <li style='margin-bottom: 0.8em;'><b>Hardware Constraints</b>: Fine-tuning even a 1.1B model can be memory-intensive. This was mitigated by using 4-bit quantization on CUDA and carefully managing batch sizes, especially on Apple Silicon (MPS).</li>
-                    <li style='margin-bottom: 0.8em;'><b>Prompt Engineering</b>: Crafting the right system prompt was crucial to guide the model's response format effectively.</li>
-                    <li style='margin-bottom: 0.8em;'><b>Dependency Management</b>: Ensuring compatibility between PyTorch, Transformers, and CUDA/MPS drivers required careful environment setup.</li>
+                    <li style='margin-bottom: 0.8em;'>✓ Lightweight</li>
+                    <li style='margin-bottom: 0.8em;'>✓ Fast inference</li>
+                    <li style='margin-bottom: 0.8em;'>✓ Suitable for fine-tuning on limited hardware</li>
                 </ul>
             </div>
         </div>
         """,
         """
         <div style='min-height: 60vh; padding: 2em; text-align: left;'>
-            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1em; font-weight: 700;'>Future Improvements</h2>
-            <div style='font-size: 1.3em; line-height: 1.8;'>
-                <ul style='list-style-position: inside; margin-left: 1.5em;'>
-                    <li style='margin-bottom: 0.8em;'><b>Larger Dataset</b>: Train on the full `CodeAlpaca-20k` dataset or.</li>
-                    <li style='margin-bottom: 0.8em;'><b>Deeper LoRA Integration</b>: Experiment with applying LoRA to more layers of the transformer, such as `k_proj` and `o_proj`.</li>
-                    <li style='margin-bottom: 0.8em;'><b>Advanced RAG</b>: Integrate a Retrieval-Augmented Generation (RAG) pipeline to allow the model to pull in external documentation or code examples in real-time.</li>
-                    <li style='margin-bottom: 0.8em;'><b>Evaluation Metrics</b>: Implement automated evaluation metrics (e.g., BLEU, CodeBLEU) to quantitatively measure performance improvements.</li>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>Dataset</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Training Dataset</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'><b>Dataset:</b> CodeAlpaca-20k</li>
+                    <li style='margin-bottom: 0.8em;'><b>Domain:</b> Programming + DSA tasks</li>
                 </ul>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Contains:</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Instruction → Problem</li>
+                    <li style='margin-bottom: 0.8em;'>Input → Context</li>
+                    <li style='margin-bottom: 0.8em;'>Output → Solution</li>
+                </ul>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Implementation Choice:</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Used subset (30–300 samples) for fast training</li>
+                    <li style='margin-bottom: 0.8em;'>Pipeline supports full dataset scaling</li>
+                </ul>
+            </div>
+        </div>
+        """,
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>Data Preprocessing</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #a855f7;'>Instruction Formatting Strategy</h3>
+                <p style='margin-bottom: 1.5em;'>We convert dataset into structured chat format:</p>
+                <div style='background: rgba(15, 23, 42, 0.8); padding: 1.5em; border-radius: 8px; margin-bottom: 1.5em; font-family: monospace;'>
+                    <p>&lt;|system|&gt; → Defines assistant behavior</p>
+                    <p>&lt;|user|&gt; → User query</p>
+                    <p>&lt;|assistant|&gt; → Expected output</p>
+                </div>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #a855f7;'>Enhancements:</h3>
+                <p style='margin-bottom: 1em;'>Added system instructions:</p>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Concept explanation</li>
+                    <li style='margin-bottom: 0.8em;'>Complexity analysis</li>
+                    <li style='margin-bottom: 0.8em;'>Code generation</li>
+                </ul>
+                <div style='background: rgba(16, 185, 129, 0.1); padding: 1em; border-left: 3px solid #10b981; border-radius: 8px;'>
+                    <p>✅ <b>Result:</b> Improved instruction-following capability</p>
+                </div>
+            </div>
+        </div>
+        """,
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>LoRA: Core Technique</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #a855f7;'>Low-Rank Adaptation (LoRA)</h3>
+                <p style='margin-bottom: 1em;'><b>Key Idea:</b> Instead of updating full weights:</p>
+                <div style='background: rgba(15, 23, 42, 0.8); padding: 1.5em; border-radius: 8px; margin-bottom: 1.5em; text-align: center; font-size: 1.3em; font-family: monospace;'>
+                    W′ = W + A × B
+                </div>
+                <p style='margin-bottom: 1.5em;'><b>Where:</b></p>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>W = original weights</li>
+                    <li style='margin-bottom: 0.8em;'>A, B = low-rank matrices</li>
+                </ul>
+                <h3 style='font-size: 1.4em; margin-bottom: 1em; color: #a855f7;'>Target Layers:</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>q_proj, k_proj, v_proj, o_proj</li>
+                </ul>
+                <div style='background: rgba(16, 185, 129, 0.1); padding: 1em; border-left: 3px solid #10b981; border-radius: 8px;'>
+                    <p><b>✅ Benefits:</b></p>
+                    <ul style='list-style-position: inside; margin-left: 1.5em;'>
+                        <li style='margin-bottom: 0.5em;'>~99% reduction in trainable parameters</li>
+                        <li style='margin-bottom: 0.5em;'>Faster training</li>
+                        <li style='margin-bottom: 0.5em;'>Lower memory usage</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        """,
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>QLoRA: Memory Optimization</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Quantization Strategy</h3>
+                <p style='margin-bottom: 1.5em;'><b>Technique:</b></p>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>4-bit Quantization (NF4)</li>
+                    <li style='margin-bottom: 0.8em;'>Using BitsAndBytes library</li>
+                </ul>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>What it does:</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Compress model weights</li>
+                    <li style='margin-bottom: 0.8em;'>Reduce GPU memory usage</li>
+                </ul>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Implementation:</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Enabled only on CUDA devices</li>
+                    <li style='margin-bottom: 0.8em;'>FP16 used for MPS/CPU</li>
+                </ul>
+                <div style='background: rgba(16, 185, 129, 0.1); padding: 1em; border-left: 3px solid #10b981; border-radius: 8px;'>
+                    <p><b>✅ Result:</b> Training possible on low-resource systems & faster inference</p>
+                </div>
+            </div>
+        </div>
+        """,
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>RAG-Inspired Approach</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #a855f7;'>Context Injection (Simulated RAG)</h3>
+                <div style='background: rgba(239, 68, 68, 0.1); padding: 1em; border-left: 3px solid #ef4444; border-radius: 8px; margin-bottom: 1.5em;'>
+                    <p>⚠ Not full RAG (no retrieval system)</p>
+                </div>
+                <h3 style='font-size: 1.4em; margin-bottom: 1em; color: #a855f7;'>What we implemented:</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Prompt-based context augmentation</li>
+                    <li style='margin-bottom: 0.8em;'>Injected structured rules into system prompt</li>
+                </ul>
+                <h3 style='font-size: 1.4em; margin-bottom: 1em; color: #a855f7;'>Example - Enforce:</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Code quality</li>
+                    <li style='margin-bottom: 0.8em;'>Edge case handling</li>
+                    <li style='margin-bottom: 0.8em;'>Structured outputs</li>
+                </ul>
+                <div style='background: rgba(16, 185, 129, 0.1); padding: 1em; border-left: 3px solid #10b981; border-radius: 8px;'>
+                    <p><b>✅ Benefit:</b> More controlled and consistent responses</p>
+                </div>
+            </div>
+        </div>
+        """,
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>Training Pipeline</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #a855f7;'>End-to-End Workflow</h3>
+                <div style='background: rgba(15, 23, 42, 0.8); padding: 1.5em; border-radius: 8px; margin-bottom: 1.5em; text-align: center; font-family: monospace;'>
+                    <p>Dataset → Formatting → Tokenization</p>
+                    <p>↓</p>
+                    <p>Quantized Base Model → LoRA Injection</p>
+                    <p>↓</p>
+                    <p>SFTTrainer → Save LoRA Adapters</p>
+                </div>
+                <h3 style='font-size: 1.4em; margin-bottom: 1em; color: #a855f7;'>Training Framework:</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>HuggingFace Transformers</li>
+                    <li style='margin-bottom: 0.8em;'>TRL (SFTTrainer)</li>
+                </ul>
+                <h3 style='font-size: 1.4em; margin-bottom: 1em; color: #a855f7;'>Objective:</h3>
+                <p>Minimize loss on instruction-output pairs</p>
+            </div>
+        </div>
+        """,
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>Training Details</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Hyperparameters</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Epochs: 1</li>
+                    <li style='margin-bottom: 0.8em;'>Batch Size: 1</li>
+                    <li style='margin-bottom: 0.8em;'>Gradient Accumulation: 4</li>
+                    <li style='margin-bottom: 0.8em;'>Learning Rate: 2e-4</li>
+                </ul>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Optimization:</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>AdamW / paged_adamw_32bit</li>
+                    <li style='margin-bottom: 0.8em;'>Cosine learning rate scheduler</li>
+                </ul>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Hardware Handling:</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>CUDA → 4-bit + FP16</li>
+                    <li style='margin-bottom: 0.8em;'>MPS → FP16</li>
+                    <li style='margin-bottom: 0.8em;'>CPU → FP32</li>
+                </ul>
+            </div>
+        </div>
+        """,
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>System Architecture</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #a855f7;'>Modular Design</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'><b>config.py</b> → Hardware + hyperparameters</li>
+                    <li style='margin-bottom: 0.8em;'><b>data_handler.py</b> → Dataset processing</li>
+                    <li style='margin-bottom: 0.8em;'><b>model_trainer.py</b> → Training pipeline</li>
+                    <li style='margin-bottom: 0.8em;'><b>app.py</b> → UI & inference</li>
+                </ul>
+                <div style='background: rgba(16, 185, 129, 0.1); padding: 1.5em; border-left: 3px solid #10b981; border-radius: 8px;'>
+                    <p><b>✅ Advantages:</b></p>
+                    <ul style='list-style-position: inside; margin-left: 1.5em;'>
+                        <li style='margin-bottom: 0.5em;'>Scalable</li>
+                        <li style='margin-bottom: 0.5em;'>Maintainable</li>
+                        <li style='margin-bottom: 0.5em;'>Reproducible</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        """,
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>Version 1: Base vs LoRA</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #a855f7;'>Comparative Evaluation</h3>
+                <p style='margin-bottom: 1em;'><b>Base Model:</b></p>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Generic responses</li>
+                    <li style='margin-bottom: 0.8em;'>Less structured</li>
+                </ul>
+                <p style='margin-bottom: 1em;'><b>LoRA Model:</b></p>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Domain-specific</li>
+                    <li style='margin-bottom: 0.8em;'>Structured output</li>
+                    <li style='margin-bottom: 0.8em;'>Better code quality</li>
+                </ul>
+                <div style='background: rgba(168, 85, 247, 0.1); padding: 1.5em; border-left: 3px solid #a855f7; border-radius: 8px;'>
+                    <p><b>🎯 Insight:</b> LoRA significantly improves task-specific performance</p>
+                </div>
+            </div>
+        </div>
+        """,
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>Version 2: Advanced System</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>QLoRA + Context-Augmented Pipeline</h3>
+                <p style='margin-bottom: 1.5em;'><b>Enhancements:</b></p>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>Quantized inference</li>
+                    <li style='margin-bottom: 0.8em;'>Prompt-based context injection</li>
+                </ul>
+                <div style='background: rgba(16, 185, 129, 0.1); padding: 1.5em; border-left: 3px solid #10b981; border-radius: 8px;'>
+                    <p><b>Result:</b></p>
+                    <ul style='list-style-position: inside; margin-left: 1.5em;'>
+                        <li style='margin-bottom: 0.5em;'>More controlled outputs</li>
+                        <li style='margin-bottom: 0.5em;'>Improved consistency</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        """,
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>Results</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #a855f7;'>Observed Improvements</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'>✓ Better instruction following</li>
+                    <li style='margin-bottom: 0.8em;'>✓ Cleaner code generation</li>
+                    <li style='margin-bottom: 0.8em;'>✓ Structured responses</li>
+                    <li style='margin-bottom: 0.8em;'>✓ Improved explanation clarity</li>
+                </ul>
+                <div style='background: rgba(168, 85, 247, 0.1); padding: 1.5em; border-left: 3px solid #a855f7; border-radius: 8px;'>
+                    <p><b>Demo:</b> Side-by-side comparison via Gradio UI in the "Live Demo" tab</p>
+                </div>
+            </div>
+        </div>
+        """,
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: left;'>
+            <h2 style='font-size: 2.2em; text-align: center; margin-bottom: 1.5em; font-weight: 700;'>Challenges</h2>
+            <div style='font-size: 1.2em; line-height: 2;'>
+                <h3 style='font-size: 1.6em; margin-bottom: 1em; color: #ec4899;'>Key Challenges Faced</h3>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 1.5em;'>
+                    <li style='margin-bottom: 0.8em;'><b>Memory constraints</b> - Managed with quantization</li>
+                    <li style='margin-bottom: 0.8em;'><b>Small dataset size</b> - Mitigated with gradient accumulation</li>
+                    <li style='margin-bottom: 0.8em;'><b>Prompt design complexity</b> - Solved through iterations</li>
+                    <li style='margin-bottom: 0.8em;'><b>Hardware compatibility</b> - CUDA vs MPS handling</li>
+                </ul>
+                <div style='background: rgba(16, 185, 129, 0.1); padding: 1.5em; border-left: 3px solid #10b981; border-radius: 8px;'>
+                    <p><b>Solutions Applied:</b></p>
+                    <ul style='list-style-position: inside; margin-left: 1.5em;'>
+                        <li style='margin-bottom: 0.5em;'>Quantization for memory</li>
+                        <li style='margin-bottom: 0.5em;'>Gradient accumulation</li>
+                        <li style='margin-bottom: 0.5em;'>Modular design</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        """,
+      
+        """
+        <div style='min-height: 60vh; padding: 2em; text-align: center; display: flex; flex-direction: column; justify-content: center;'>
+            <h2 style='font-size: 2.5em; font-weight: 700; margin-bottom: 1.5em; background: linear-gradient(to right, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;'>Conclusion</h2>
+            <h3 style='font-size: 1.6em; color: #94a3b8; margin-bottom: 2em;'>Key Takeaways</h3>
+            <div style='font-size: 1.2em; line-height: 2; text-align: left; max-width: 900px; margin: 0 auto;'>
+                <ul style='list-style-position: inside; margin-left: 1.5em; margin-bottom: 2em;'>
+                    <li style='margin-bottom: 1em;'>✓ Efficient fine-tuning is possible using LoRA</li>
+                    <li style='margin-bottom: 1em;'>✓ Quantization reduces hardware requirements</li>
+                    <li style='margin-bottom: 1em;'>✓ Structured prompts improve LLM behavior</li>
+                    <li style='margin-bottom: 1em;'>✓ Modular design enables scalability</li>
+                </ul>
+                <div style='background: rgba(168, 85, 247, 0.1); padding: 2em; border-left: 4px solid #a855f7; border-radius: 8px; text-align: center;'>
+                    <p style='font-size: 1.3em; font-weight: 600;'>"We demonstrated how large language models can be efficiently adapted for real-world applications using minimal resources."</p>
+                </div>
             </div>
         </div>
         """
