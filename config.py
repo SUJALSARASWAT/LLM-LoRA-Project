@@ -26,7 +26,10 @@ class ModelConfig:
     
     # Dynamic Optimization Settings based on Hardware
     DEVICE = get_device.__func__()
-    USE_FP16 = DEVICE in ["cuda", "mps"]  # MPS natively supports FP16, halves RAM and prevents Mac 4GB crash!
+    # Keep model weights in half precision on CUDA/MPS to reduce memory.
+    USE_HALF_PRECISION_WEIGHTS = DEVICE in ["cuda", "mps"]
+    # Trainer mixed-precision `fp16` is only valid on CUDA (not MPS/CPU).
+    USE_FP16 = DEVICE == "cuda"
     USE_4BIT = DEVICE == "cuda"  # bitsandbytes only works on CUDA
 
 class LoRAConfigParams:
